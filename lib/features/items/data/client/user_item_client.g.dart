@@ -12,7 +12,7 @@ part of 'user_item_client.dart';
 
 class _UserItemClient implements UserItemClient {
   _UserItemClient(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://690f727345e65ab24ac3dafc.mockapi.io/user/';
+    baseUrl ??= 'https://690f727345e65ab24ac3dafc.mockapi.io/user';
   }
 
   final Dio _dio;
@@ -22,9 +22,9 @@ class _UserItemClient implements UserItemClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<ItemModel>> getItems() async {
+  Future<List<ItemModel>> getItems({int page = 1, int limit = 10}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page, r'limit': limit};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<ItemModel>>(

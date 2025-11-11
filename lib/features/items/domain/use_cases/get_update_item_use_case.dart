@@ -5,12 +5,12 @@ import 'package:startup_task_app/features/items/domain/entities/user_item_entity
 import 'package:startup_task_app/features/items/domain/repositories/user_item_repository.dart';
 
 class GetUpdateItemUseCase implements UseCase<UserItemEntity, ItemParams> {
-  final UserItemRepository _repository;
-  GetUpdateItemUseCase({required UserItemRepository repository})
-    : _repository = repository;
+  final UserItemRepository _userItemRepo;
+  GetUpdateItemUseCase({required UserItemRepository userItemRepo})
+    : _userItemRepo = userItemRepo;
 
   @override
   Future<FailureOr<UserItemEntity>> call(ItemParams params) {
-    return _repository.updateItem(params.toEntity());
+    return _userItemRepo.updateItem(params.toEntity());
   }
 }

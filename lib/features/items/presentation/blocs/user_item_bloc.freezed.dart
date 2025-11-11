@@ -128,10 +128,10 @@ return selectItem(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  getItems,TResult Function( UserItemEntity item)?  addItem,TResult Function( String id)?  deleteItem,TResult Function( UserItemEntity item)?  updateItem,TResult Function( UserItemEntity item)?  selectItem,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int page,  int limit)?  getItems,TResult Function( UserItemEntity item)?  addItem,TResult Function( String id)?  deleteItem,TResult Function( UserItemEntity item)?  updateItem,TResult Function( UserItemEntity item)?  selectItem,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetItemsEvent() when getItems != null:
-return getItems();case _AddItemEvent() when addItem != null:
+return getItems(_that.page,_that.limit);case _AddItemEvent() when addItem != null:
 return addItem(_that.item);case _DeleteItemEvent() when deleteItem != null:
 return deleteItem(_that.id);case _UpdateItemEvent() when updateItem != null:
 return updateItem(_that.item);case _SelectItemEvent() when selectItem != null:
@@ -153,10 +153,10 @@ return selectItem(_that.item);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  getItems,required TResult Function( UserItemEntity item)  addItem,required TResult Function( String id)  deleteItem,required TResult Function( UserItemEntity item)  updateItem,required TResult Function( UserItemEntity item)  selectItem,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int page,  int limit)  getItems,required TResult Function( UserItemEntity item)  addItem,required TResult Function( String id)  deleteItem,required TResult Function( UserItemEntity item)  updateItem,required TResult Function( UserItemEntity item)  selectItem,}) {final _that = this;
 switch (_that) {
 case _GetItemsEvent():
-return getItems();case _AddItemEvent():
+return getItems(_that.page,_that.limit);case _AddItemEvent():
 return addItem(_that.item);case _DeleteItemEvent():
 return deleteItem(_that.id);case _UpdateItemEvent():
 return updateItem(_that.item);case _SelectItemEvent():
@@ -174,10 +174,10 @@ return selectItem(_that.item);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  getItems,TResult? Function( UserItemEntity item)?  addItem,TResult? Function( String id)?  deleteItem,TResult? Function( UserItemEntity item)?  updateItem,TResult? Function( UserItemEntity item)?  selectItem,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int page,  int limit)?  getItems,TResult? Function( UserItemEntity item)?  addItem,TResult? Function( String id)?  deleteItem,TResult? Function( UserItemEntity item)?  updateItem,TResult? Function( UserItemEntity item)?  selectItem,}) {final _that = this;
 switch (_that) {
 case _GetItemsEvent() when getItems != null:
-return getItems();case _AddItemEvent() when addItem != null:
+return getItems(_that.page,_that.limit);case _AddItemEvent() when addItem != null:
 return addItem(_that.item);case _DeleteItemEvent() when deleteItem != null:
 return deleteItem(_that.id);case _UpdateItemEvent() when updateItem != null:
 return updateItem(_that.item);case _SelectItemEvent() when selectItem != null:
@@ -193,33 +193,69 @@ return selectItem(_that.item);case _:
 
 
 class _GetItemsEvent implements UserItemEvent {
-  const _GetItemsEvent();
+  const _GetItemsEvent([this.page = 1, this.limit = 10]);
   
 
+@JsonKey() final  int page;
+@JsonKey() final  int limit;
 
-
+/// Create a copy of UserItemEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GetItemsEventCopyWith<_GetItemsEvent> get copyWith => __$GetItemsEventCopyWithImpl<_GetItemsEvent>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetItemsEvent);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetItemsEvent&&(identical(other.page, page) || other.page == page)&&(identical(other.limit, limit) || other.limit == limit));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,page,limit);
 
 @override
 String toString() {
-  return 'UserItemEvent.getItems()';
+  return 'UserItemEvent.getItems(page: $page, limit: $limit)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$GetItemsEventCopyWith<$Res> implements $UserItemEventCopyWith<$Res> {
+  factory _$GetItemsEventCopyWith(_GetItemsEvent value, $Res Function(_GetItemsEvent) _then) = __$GetItemsEventCopyWithImpl;
+@useResult
+$Res call({
+ int page, int limit
+});
 
 
+
+
+}
+/// @nodoc
+class __$GetItemsEventCopyWithImpl<$Res>
+    implements _$GetItemsEventCopyWith<$Res> {
+  __$GetItemsEventCopyWithImpl(this._self, this._then);
+
+  final _GetItemsEvent _self;
+  final $Res Function(_GetItemsEvent) _then;
+
+/// Create a copy of UserItemEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? page = null,Object? limit = null,}) {
+  return _then(_GetItemsEvent(
+null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as int,null == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
 
 /// @nodoc
 
@@ -488,7 +524,7 @@ as UserItemEntity,
 /// @nodoc
 mixin _$UserItemState {
 
- ViewState get viewState; List<UserItemEntity> get items; String? get errorMessage; UserItemEntity? get selectedItem;
+ ViewState get viewState; ItemAction get action; List<UserItemEntity> get items; String? get errorMessage; UserItemEntity? get selectedItem; int get currentPage; bool get hasMoreData; bool get isLoadingMore;
 /// Create a copy of UserItemState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -499,16 +535,16 @@ $UserItemStateCopyWith<UserItemState> get copyWith => _$UserItemStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserItemState&&(identical(other.viewState, viewState) || other.viewState == viewState)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.selectedItem, selectedItem) || other.selectedItem == selectedItem));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserItemState&&(identical(other.viewState, viewState) || other.viewState == viewState)&&(identical(other.action, action) || other.action == action)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.selectedItem, selectedItem) || other.selectedItem == selectedItem)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.hasMoreData, hasMoreData) || other.hasMoreData == hasMoreData)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,viewState,const DeepCollectionEquality().hash(items),errorMessage,selectedItem);
+int get hashCode => Object.hash(runtimeType,viewState,action,const DeepCollectionEquality().hash(items),errorMessage,selectedItem,currentPage,hasMoreData,isLoadingMore);
 
 @override
 String toString() {
-  return 'UserItemState(viewState: $viewState, items: $items, errorMessage: $errorMessage, selectedItem: $selectedItem)';
+  return 'UserItemState(viewState: $viewState, action: $action, items: $items, errorMessage: $errorMessage, selectedItem: $selectedItem, currentPage: $currentPage, hasMoreData: $hasMoreData, isLoadingMore: $isLoadingMore)';
 }
 
 
@@ -519,7 +555,7 @@ abstract mixin class $UserItemStateCopyWith<$Res>  {
   factory $UserItemStateCopyWith(UserItemState value, $Res Function(UserItemState) _then) = _$UserItemStateCopyWithImpl;
 @useResult
 $Res call({
- ViewState viewState, List<UserItemEntity> items, String? errorMessage, UserItemEntity? selectedItem
+ ViewState viewState, ItemAction action, List<UserItemEntity> items, String? errorMessage, UserItemEntity? selectedItem, int currentPage, bool hasMoreData, bool isLoadingMore
 });
 
 
@@ -536,13 +572,17 @@ class _$UserItemStateCopyWithImpl<$Res>
 
 /// Create a copy of UserItemState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? viewState = null,Object? items = null,Object? errorMessage = freezed,Object? selectedItem = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? viewState = null,Object? action = null,Object? items = null,Object? errorMessage = freezed,Object? selectedItem = freezed,Object? currentPage = null,Object? hasMoreData = null,Object? isLoadingMore = null,}) {
   return _then(_self.copyWith(
 viewState: null == viewState ? _self.viewState : viewState // ignore: cast_nullable_to_non_nullable
-as ViewState,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
+as ViewState,action: null == action ? _self.action : action // ignore: cast_nullable_to_non_nullable
+as ItemAction,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<UserItemEntity>,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,selectedItem: freezed == selectedItem ? _self.selectedItem : selectedItem // ignore: cast_nullable_to_non_nullable
-as UserItemEntity?,
+as UserItemEntity?,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
+as int,hasMoreData: null == hasMoreData ? _self.hasMoreData : hasMoreData // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -624,10 +664,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ViewState viewState,  List<UserItemEntity> items,  String? errorMessage,  UserItemEntity? selectedItem)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ViewState viewState,  ItemAction action,  List<UserItemEntity> items,  String? errorMessage,  UserItemEntity? selectedItem,  int currentPage,  bool hasMoreData,  bool isLoadingMore)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserItemState() when $default != null:
-return $default(_that.viewState,_that.items,_that.errorMessage,_that.selectedItem);case _:
+return $default(_that.viewState,_that.action,_that.items,_that.errorMessage,_that.selectedItem,_that.currentPage,_that.hasMoreData,_that.isLoadingMore);case _:
   return orElse();
 
 }
@@ -645,10 +685,10 @@ return $default(_that.viewState,_that.items,_that.errorMessage,_that.selectedIte
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ViewState viewState,  List<UserItemEntity> items,  String? errorMessage,  UserItemEntity? selectedItem)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ViewState viewState,  ItemAction action,  List<UserItemEntity> items,  String? errorMessage,  UserItemEntity? selectedItem,  int currentPage,  bool hasMoreData,  bool isLoadingMore)  $default,) {final _that = this;
 switch (_that) {
 case _UserItemState():
-return $default(_that.viewState,_that.items,_that.errorMessage,_that.selectedItem);}
+return $default(_that.viewState,_that.action,_that.items,_that.errorMessage,_that.selectedItem,_that.currentPage,_that.hasMoreData,_that.isLoadingMore);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -662,10 +702,10 @@ return $default(_that.viewState,_that.items,_that.errorMessage,_that.selectedIte
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ViewState viewState,  List<UserItemEntity> items,  String? errorMessage,  UserItemEntity? selectedItem)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ViewState viewState,  ItemAction action,  List<UserItemEntity> items,  String? errorMessage,  UserItemEntity? selectedItem,  int currentPage,  bool hasMoreData,  bool isLoadingMore)?  $default,) {final _that = this;
 switch (_that) {
 case _UserItemState() when $default != null:
-return $default(_that.viewState,_that.items,_that.errorMessage,_that.selectedItem);case _:
+return $default(_that.viewState,_that.action,_that.items,_that.errorMessage,_that.selectedItem,_that.currentPage,_that.hasMoreData,_that.isLoadingMore);case _:
   return null;
 
 }
@@ -677,10 +717,11 @@ return $default(_that.viewState,_that.items,_that.errorMessage,_that.selectedIte
 
 
 class _UserItemState implements UserItemState {
-   _UserItemState([this.viewState = ViewState.idle, final  List<UserItemEntity> items = const [], this.errorMessage, this.selectedItem]): _items = items;
+   _UserItemState({this.viewState = ViewState.idle, this.action = ItemAction.none, final  List<UserItemEntity> items = const [], this.errorMessage, this.selectedItem, this.currentPage = 1, this.hasMoreData = true, this.isLoadingMore = false}): _items = items;
   
 
 @override@JsonKey() final  ViewState viewState;
+@override@JsonKey() final  ItemAction action;
  final  List<UserItemEntity> _items;
 @override@JsonKey() List<UserItemEntity> get items {
   if (_items is EqualUnmodifiableListView) return _items;
@@ -690,6 +731,9 @@ class _UserItemState implements UserItemState {
 
 @override final  String? errorMessage;
 @override final  UserItemEntity? selectedItem;
+@override@JsonKey() final  int currentPage;
+@override@JsonKey() final  bool hasMoreData;
+@override@JsonKey() final  bool isLoadingMore;
 
 /// Create a copy of UserItemState
 /// with the given fields replaced by the non-null parameter values.
@@ -701,16 +745,16 @@ _$UserItemStateCopyWith<_UserItemState> get copyWith => __$UserItemStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserItemState&&(identical(other.viewState, viewState) || other.viewState == viewState)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.selectedItem, selectedItem) || other.selectedItem == selectedItem));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserItemState&&(identical(other.viewState, viewState) || other.viewState == viewState)&&(identical(other.action, action) || other.action == action)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.selectedItem, selectedItem) || other.selectedItem == selectedItem)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.hasMoreData, hasMoreData) || other.hasMoreData == hasMoreData)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,viewState,const DeepCollectionEquality().hash(_items),errorMessage,selectedItem);
+int get hashCode => Object.hash(runtimeType,viewState,action,const DeepCollectionEquality().hash(_items),errorMessage,selectedItem,currentPage,hasMoreData,isLoadingMore);
 
 @override
 String toString() {
-  return 'UserItemState(viewState: $viewState, items: $items, errorMessage: $errorMessage, selectedItem: $selectedItem)';
+  return 'UserItemState(viewState: $viewState, action: $action, items: $items, errorMessage: $errorMessage, selectedItem: $selectedItem, currentPage: $currentPage, hasMoreData: $hasMoreData, isLoadingMore: $isLoadingMore)';
 }
 
 
@@ -721,7 +765,7 @@ abstract mixin class _$UserItemStateCopyWith<$Res> implements $UserItemStateCopy
   factory _$UserItemStateCopyWith(_UserItemState value, $Res Function(_UserItemState) _then) = __$UserItemStateCopyWithImpl;
 @override @useResult
 $Res call({
- ViewState viewState, List<UserItemEntity> items, String? errorMessage, UserItemEntity? selectedItem
+ ViewState viewState, ItemAction action, List<UserItemEntity> items, String? errorMessage, UserItemEntity? selectedItem, int currentPage, bool hasMoreData, bool isLoadingMore
 });
 
 
@@ -738,13 +782,17 @@ class __$UserItemStateCopyWithImpl<$Res>
 
 /// Create a copy of UserItemState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? viewState = null,Object? items = null,Object? errorMessage = freezed,Object? selectedItem = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? viewState = null,Object? action = null,Object? items = null,Object? errorMessage = freezed,Object? selectedItem = freezed,Object? currentPage = null,Object? hasMoreData = null,Object? isLoadingMore = null,}) {
   return _then(_UserItemState(
-null == viewState ? _self.viewState : viewState // ignore: cast_nullable_to_non_nullable
-as ViewState,null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
-as List<UserItemEntity>,freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String?,freezed == selectedItem ? _self.selectedItem : selectedItem // ignore: cast_nullable_to_non_nullable
-as UserItemEntity?,
+viewState: null == viewState ? _self.viewState : viewState // ignore: cast_nullable_to_non_nullable
+as ViewState,action: null == action ? _self.action : action // ignore: cast_nullable_to_non_nullable
+as ItemAction,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
+as List<UserItemEntity>,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,selectedItem: freezed == selectedItem ? _self.selectedItem : selectedItem // ignore: cast_nullable_to_non_nullable
+as UserItemEntity?,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
+as int,hasMoreData: null == hasMoreData ? _self.hasMoreData : hasMoreData // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

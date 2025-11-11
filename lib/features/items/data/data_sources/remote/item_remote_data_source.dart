@@ -2,14 +2,16 @@ import 'package:startup_task_app/features/items/data/client/user_item_client.dar
 import 'package:startup_task_app/features/items/data/models/item_model.dart';
 
 /// Contract for data operations (remote)
+
 abstract interface class ItemRemoteDataSource {
-  Future<List<ItemModel>> getItems();
+  Future<List<ItemModel>> getItems({int page = 1, int limit = 10});
   Future<ItemModel> addItem(ItemModel item);
   Future<ItemModel> updateItem(ItemModel item);
-  Future<void> deleteItem(String id); // void is fine
+  Future<void> deleteItem(String id);
 }
 
 /// Implementation that communicates with the REST API via Retrofit client
+
 class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
   final UserItemClient _client;
 
@@ -26,8 +28,8 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
   }
 
   @override
-  Future<List<ItemModel>> getItems() async {
-    return await _client.getItems();
+  Future<List<ItemModel>> getItems({int page = 1, int limit = 10}) async {
+    return await _client.getItems(page: page, limit: limit);
   }
 
   @override
