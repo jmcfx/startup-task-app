@@ -18,25 +18,14 @@ The full video is too large to upload here.
 Copy the link below into your browser to watch the full demo video:
 
 ```bash
-https://drive.google.com/file/d/1-2NMH91JZTc20eUwbPq_JoKK7AH6LE6m/view?usp=sharing
+https://drive.google.com/file/d/1bKc9hXVHIYkt3n6yd5LUDSYEbWnQQhZd/view?usp=sharing
 ```
 
-In the demo, I showcased:
+## In the full demo:
 
-- Add, edit, and delete items with toast notifications
-
-- Fetches data from MockAPI (real network requests)
-
-- Offline support with cached data using Hive
-
-- Network connection checker to handle online/offline states
-
-- Pagination for large item lists
-
-- Smooth navigation between screens using AutoRoute
-
-- Loading, error, and empty states handling
-
+ I started by fetching items through a network request. After that, I demonstrated CRUD operations by **deleting** , **adding** , and **updating** items. I then showcased **pagination** for handling large lists efficiently.
+Next, I toggled my internet connection to show how the app manages both offline and online states. I also cleared all data from the local database and made a new network request to display the empty state.
+Additionally, I demonstrated smooth navigation between screens using `AutoRoute` . Finally, I uploaded fresh data to MockAPI and fetched it again to confirm that the app retrieves and updates the latest data successfully.”
 
 ## 🚀 Getting Started
 
@@ -188,6 +177,7 @@ Presentation Layer: UI implementation with Bloc for state management and reusabl
 - **flutter_screenutil** – For responsive UI scaling.
 - **delight_toast** – Easy-to-use toast notifications.
 - **logger** – Logging utility to track events, errors, and debug info.
+- **cached_network_image** – Efficiently loads and caches images from the network, reducing repeated downloads and improving performance.
 
 
 ### Dev Dependencies
