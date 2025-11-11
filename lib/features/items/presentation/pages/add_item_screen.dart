@@ -27,6 +27,7 @@ class AddItemScreen extends HookWidget {
     final nameController = useTextEditingController();
 
     return Scaffold(
+      backgroundColor: const Color(0xffF4F6FA),
       appBar: AppBar(
         title: const Text("Add Item"),
         backgroundColor: Colors.white,
@@ -97,8 +98,11 @@ class AddItemScreen extends HookWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.add),
-                  label: const Text("Add Item"),
+                  icon: Icon(Icons.add, color: Colors.black, size: 20.sp),
+                  label: Text(
+                    "Add Item",
+                    style: TextStyle(fontSize: 16.sp, color: Colors.black),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
                     minimumSize: Size.fromHeight(50.r),
