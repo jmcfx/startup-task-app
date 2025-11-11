@@ -5,6 +5,13 @@ Built using **Clean Architecture**, **Bloc** for state management, Dio & Retrofi
 The app supports offline access, **pagination, add/edit/delete functionality**, and a smooth, responsive UI.
 
 
+Home Screen Page ( Item Board ) 
+
+
+https://github.com/user-attachments/assets/74daabf4-d696-4e84-b22c-e9673a5e5c85
+
+
+
 ## 📌 Demo Video
  
 The full video is too large to upload here.  
